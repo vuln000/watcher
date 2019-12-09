@@ -1,5 +1,4 @@
 # watcher
 a simple tool to monitor your network environment
-
-netifaces
+每五分钟切换一个存储文件，一共12个，循环使用
 

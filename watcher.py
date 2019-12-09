@@ -1,19 +1,29 @@
 from scapy.all import *
 import socket
-file = 'a.txt'
+import time
+file = 'a.txt'#temp postion
+begin_time = time.time()
+
 def write_to_txt(data):
     with open(file,'a+') as f:
         for i in data:
             f.write(str(i)+',')
         f.write('\n')
 
+def choose_file():# could update for optimal cpu using
+    global file
+    minute = time.localtime().tm_min / 5
+    file = 'data/' + str(minute) + '.txt'
+    #print file
+
 def parse_ip(pkt):
+    choose_file()
     temp = []
     if pkt.haslayer('IP'):#ipv4 for now
         if pkt.haslayer('TCP'):
             #print 'tcp'
             #print str(pkt[IP].src) + ':' + str(pkt[TCP].sport) + '---->' + str(pkt[IP].dst) + ':' + str(pkt[TCP].dport)
-            temp.append(int(time.time()%100000))
+            temp.append(int(time.time()-begin_time))
             temp.append(str(pkt[IP].src))
             temp.append(str(pkt[TCP].sport))
             temp.append(str(pkt[IP].dst))
@@ -24,7 +34,7 @@ def parse_ip(pkt):
 
         if pkt.haslayer('UDP'):
             #print 'udp'
-            temp.append(int(time.time()%100000))
+            temp.append(int(time.time()-begin_time))
             temp.append(str(pkt[IP].src))
             temp.append(str(pkt[UDP].sport))
             temp.append(str(pkt[IP].dst))

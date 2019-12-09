@@ -6,10 +6,19 @@ alpha = 1000
 plt.ion()
 #fig, ax = plt.subplots(3, 1)
 file = 'a.txt'
-def plot_stream(file):
+
+def choose_file():# could update for optimal cpu using
+    global file
+    minute = time.localtime().tm_min / 5
+    file = 'data/' + str(minute) + '.txt'
+    #print file
+
+def plot_stream():
+    global file
+    choose_file()
     plt.clf()
 
-    data =pd.read_csv('a.txt')
+    data =pd.read_csv(file)
     data.columns=['time','ip_src','port_src','ip_dst','port_dst','protocol','n']
     del data['n']
 
@@ -47,7 +56,7 @@ def plot_stream(file):
     graph_recv = plt.subplot(3, 2, 5)
     graph_recv.set_xlabel('user_ip',fontsize=10)
     graph_recv.set_ylabel('recv_number', fontsize=10)
-    graph_recv.bar(sent.index,recv,color='g')
+    graph_recv.bar(recv.index,recv,color='g')
     graph_recv.spines['top'].set_visible(False)
     graph_recv.spines['right'].set_visible(False)
     graph_recv.spines['bottom'].set_visible(False)
@@ -63,7 +72,7 @@ def plot_stream(file):
 
     #plt.draw()
     plt.pause(0.1)
-def send_alert_email():
+def send_alert_email(a):
     try:
         #send..email..here
         print "send"
@@ -71,7 +80,7 @@ def send_alert_email():
     except:
         print"send alert email failed try to send smb message"
         return False
-def send_alert_smb():
+def send_alert_smb(a):
     try:
         #send..messagge..here
         print "send"
@@ -80,5 +89,5 @@ def send_alert_smb():
         print"send alert email failed try to send smb message"
         return False
 while True:
-    plot_stream(file)
+    plot_stream()
     #time.sleep(3)
