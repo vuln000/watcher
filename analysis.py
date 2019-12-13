@@ -1,11 +1,14 @@
 import pandas as pd
 import matplotlib.pylab as plt
 import time
+from my_email import send_alert_email
+
 email_addr = '237834893@qq.com'
 alpha = 1000
 plt.ion()
 #fig, ax = plt.subplots(3, 1)
 file = 'a.txt'
+
 
 def choose_file():# could update for optimal cpu using
     global file
@@ -28,7 +31,8 @@ def plot_stream():
         try:
             send_alert_email(sum(io[-5:-1]))
         except:
-            send_alert_smb(sum(io[-5:-1]))
+            print "error when sending email"
+            #send_alert_smb(sum(io[-5:-1]))
     io = io.sort_index(ascending=True)
     graph_io = plt.subplot(3, 2, 1)
     graph_io.set_xlabel('time',fontsize=10)
@@ -72,6 +76,7 @@ def plot_stream():
 
     #plt.draw()
     plt.pause(0.1)
+    '''
 def send_alert_email(a):
     try:
         #send..email..here
@@ -88,6 +93,7 @@ def send_alert_smb(a):
     except:
         print"send alert email failed try to send smb message"
         return False
+'''
 while True:
     plot_stream()
     #time.sleep(3)

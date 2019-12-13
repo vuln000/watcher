@@ -1,6 +1,7 @@
 from scapy.all import *
 import socket
 import time
+import os
 file = 'a.txt'#temp postion
 begin_time = time.time()
 
@@ -13,7 +14,16 @@ def write_to_txt(data):
 def choose_file():# could update for optimal cpu using
     global file
     minute = time.localtime().tm_min / 5
+    if  minute == 11:
+        next = 0
+    else:
+        next = minute + 1
     file = 'data/' + str(minute) + '.txt'
+    next_file = 'data/' + str(next) + '.txt'
+    try:
+        os.remove(next_file)
+    except:
+        pass
     #print file
 
 def parse_ip(pkt):
