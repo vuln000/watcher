@@ -5,6 +5,18 @@ import os
 file = 'a.txt'#temp postion
 begin_time = time.time()
 
+def init(interface):
+    for i in range(12):
+        file_path = os.getcwd() + '/data/' + str(i) + '.txt'
+        if os.path.isfile(file_path):
+            pass
+        else:
+            os.system('touch ' + file_path)
+    if os.system('sudo ifconfig '+str(interface) +' promisc')==0:
+        print 'interface mode promisc up, starting watching from system time '+ str(begin_time)
+    else:
+        print 'interface mode promisc failed,please cheak your interface name and system permissions'
+    
 def write_to_txt(data):
     with open(file,'a+') as f:
         for i in data:
@@ -21,7 +33,8 @@ def choose_file():# could update for optimal cpu using
     file = 'data/' + str(minute) + '.txt'
     next_file = 'data/' + str(next) + '.txt'
     try:
-        os.remove(next_file)
+        with open(next_file,'r+') as f:
+            f.truncate()
     except:
         pass
     #print file
@@ -63,5 +76,6 @@ def get_servers_by_port(sport,dport):#find the servers by port# only concern app
     return servers
 
 def watcher(interface):
+    init(interface)
     sniff(iface=interface, prn=parse_ip)
 watcher('wlan0')
