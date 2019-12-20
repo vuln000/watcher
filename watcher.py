@@ -78,4 +78,4 @@ def get_servers_by_port(sport,dport):#find the servers by port# only concern app
 def watcher(interface):
     init(interface)
     sniff(iface=interface, prn=parse_ip)
-watcher('wlan0')
+watcher('vmnet8')

@@ -96,4 +96,5 @@ def send_alert_smb(a):
 '''
 while True:
     plot_stream()
+    
     #time.sleep(3)
